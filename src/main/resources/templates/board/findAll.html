@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <title>글 목록보기</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>번호</th>
+        <th>이메일</th>
+        <th>비밀번호</th>
+        <th>이름</th>
+        <th>조회</th>
+        <th>조회(ajax)</th>
+        <th>삭제(get)</th>
+        <th>삭제(delete)</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="board : ${boardList}">
+        <td th:text="${board.boardId}"></td>
+        <td>
+            <a th:href="@{|/board/${board.boardId}|}">
+                <span  th:text="${board.boardTitle}"></span>
+            </a>
+        </td>
+        <td th:text="${board.boardWriter}">비밀번호</td>
+        <td th:text="${board.boardDate}">이름</td>
+        <td><button th:onclick="detail([[${board.boardId}]])">조회(ajax)</button></td>
+        <td></td>
+    </tr>
+    </tbody>
+</table>
+<div id="boardDetail">
+
+
+</div>
+</body>
+</html>
