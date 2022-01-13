@@ -4,6 +4,47 @@
     <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
     <title>글 목록보기</title>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+        const detail = (boardId) =>{
+            console.log(boardId);
+            const reqUrl = "/board/"+boardId;
+            $.ajax({
+                type: 'post',
+                url : reqUrl,
+                dataType: 'json',
+                success: function (result){
+                    console.log(result);
+                    let output = "";
+                    output += "<table>\n" +
+                        "    <thead>\n" +
+                        "    <tr>\n" +
+                        "        <th>번호</th>\n" +
+                        "        <th>제목</th>\n" +
+                        "        <th>작성자</th>\n" +
+                        "        <th>내용</th>\n" +
+                        "\n" +
+                        "    </tr>\n" +
+                        "    </thead>\n" +
+                        "\n" +
+                        "    <tbody>\n" +
+                        "    <tr >\n" +
+                        "        <td>"+result.boardId+"</td>\n" +
+                        "        <td >"+result.boardTitle+"</td>\n" +
+                        "        <td >"+result.boardWriter+"</td>\n" +
+                        "        <td >"+result.boardContents+"</td>\n" +
+                        "    </tr>\n" +
+                        "    </tbody>\n" +
+                        "</table>";
+                    document.getElementById("boardDetail").innerHTML = output;
+                },
+                error: function (){
+                    alert('fail ajax');
+                }
+
+            })
+        }
+
+    </script>
 </head>
 <body>
 <table>

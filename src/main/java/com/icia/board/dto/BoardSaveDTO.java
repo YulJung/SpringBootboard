@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BoardSaveDTO {
-
+    private Long boardId;
     private String boardWriter;
     private String boardPassword;
     private String boardTitle;
@@ -25,7 +25,7 @@ public class BoardSaveDTO {
     public static BoardSaveDTO toBoardSaveDTO(BoardEntity boardEntity){
         BoardSaveDTO board = new BoardSaveDTO();
         board.setBoardTitle(boardEntity.getBoardTitle());
-        board.setBoardDate(boardEntity.getBoardDate());
+//        board.setBoardDate(boardEntity.getBoardDate());
         board.setBoardContents(boardEntity.getBoardContents());
         board.setBoardPassword(board.getBoardPassword());
         board.setBoardWriter(board.getBoardWriter());

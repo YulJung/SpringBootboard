@@ -2,6 +2,7 @@ package com.icia.board.service;
 
 import com.icia.board.dto.BoardDetailDTO;
 import com.icia.board.dto.BoardSaveDTO;
+import com.icia.board.dto.BoardUpdateDTO;
 import com.icia.board.entity.BoardEntity;
 import com.icia.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -51,5 +52,12 @@ public class BoardServiceImpl implements BoardService{
             boardDetailDTO = BoardDetailDTO.toBoardDetailDTO(boardEntity);
         }
         return boardDetailDTO;
+    }
+
+    @Override
+    public Long update(BoardUpdateDTO  boardSaveDTO) {
+        BoardEntity boardEntity = BoardEntity.toUpdateBoard(boardSaveDTO);
+        Long boardId = br.save(boardEntity).getBoardId();
+        return boardId;
     }
 }

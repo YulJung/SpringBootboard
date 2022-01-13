@@ -2,9 +2,13 @@ package com.icia.board.controller;
 
 import com.icia.board.dto.BoardDetailDTO;
 import com.icia.board.dto.BoardSaveDTO;
+import com.icia.board.dto.BoardUpdateDTO;
+import com.icia.board.entity.BoardEntity;
 import com.icia.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -47,5 +51,28 @@ public class BoardController {
         model.addAttribute("board",board);
         return "board/findById";
     }
+    @PostMapping("{boardId}")
+    public ResponseEntity findById(@PathVariable Long boardId,Model model){
+        BoardDetailDTO board = bs.findById(boardId);
+        return new ResponseEntity<BoardDetailDTO>(board, HttpStatus.OK);
 
+    }
+    @GetMapping("update/{boardId}")
+    public String update(Model model,@PathVariable Long boardId){
+        model.addAttribute("board",bs.findById(boardId));
+        return "board/update";
+    }
+    @PostMapping("update")
+    public String updateProcess(@ModelAttribute BoardUpdateDTO boardSaveDTO, Model model){
+
+        Long boardId = bs.update(boardSaveDTO);
+        model.addAttribute("board",bs.findById(boardId));
+        return "/board/findById";
+
+    }
+    @PutMapping("update/{boardId}")
+    public ResponseEntity updatedo(@RequestBody BoardUpdateDTO boardSaveDTO){
+        Long boardId = bs.update(boardSaveDTO);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }
