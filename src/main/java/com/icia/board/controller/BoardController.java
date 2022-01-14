@@ -1,12 +1,17 @@
 package com.icia.board.controller;
 
+import com.icia.board.common.PagingConst;
 import com.icia.board.dto.BoardDetailDTO;
+import com.icia.board.dto.BoardPagingDTO;
 import com.icia.board.dto.BoardSaveDTO;
 import com.icia.board.dto.BoardUpdateDTO;
 import com.icia.board.entity.BoardEntity;
 import com.icia.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -75,4 +80,18 @@ public class BoardController {
         Long boardId = bs.update(boardSaveDTO);
         return new ResponseEntity(HttpStatus.OK);
     }
+    //page 5번글
+    @GetMapping("board/(page=1)")
+    public String paging(@PageableDefault(page =1) Pageable pageable,Model model){
+        Page<BoardPagingDTO> boardList = bs.paging(pageable);
+        model.addAttribute("boardList",boardList);
+        int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / PagingConst.BLOCK_LIMIT))) - 1) * PagingConst.BLOCK_LIMIT + 1;
+
+        int endPage = ((startPage + PagingConst.BLOCK_LIMIT -1) < boardList.getTotalPages()) ? startPage+PagingConst.BLOCK_LIMIT-1:boardList.getTotalPages();
+        model.addAttribute("startPage",startPage);
+        model.addAttribute("endPage",endPage);
+        return "board/paging";
+    }
+
+
 }
