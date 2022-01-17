@@ -4,9 +4,12 @@ package com.icia.board.board;
 import com.icia.board.common.PagingConst;
 import com.icia.board.dto.BoardPagingDTO;
 import com.icia.board.dto.BoardSaveDTO;
+import com.icia.board.dto.CommentSaveDTO;
 import com.icia.board.entity.BoardEntity;
 import com.icia.board.repository.BoardRepository;
+import com.icia.board.repository.CommentRepository;
 import com.icia.board.service.BoardService;
+import com.icia.board.service.CommentService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +32,10 @@ public class BoardTest {
     private BoardService bs;
     @Autowired
     private BoardRepository br;
-
+    @Autowired
+    private CommentRepository cr;
+    @Autowired
+    private CommentService cs;
     @Test
     @Rollback
     @Transactional
@@ -39,7 +45,7 @@ public class BoardTest {
         boardSaveDTO.setBoardTitle("test");
         System.out.println(boardSaveDTO.toString());
         bs.save(boardSaveDTO);
-        System.out.println(br.findById(1L).toString());
+        System.out.println(br.findById(1L));
 
 
     }
@@ -87,5 +93,31 @@ public class BoardTest {
 
 
 
+    }
+
+    //댓글작성 테스트 코드
+    @Test
+    @DisplayName("댓글작성 코드")
+    @Transactional
+    @Rollback
+    public void  saveComment(){
+        //글작성
+        BoardSaveDTO boardSaveDTO = new BoardSaveDTO();
+        boardSaveDTO.setBoardContents("test");
+        boardSaveDTO.setBoardTitle("test11111");
+        boardSaveDTO.setBoardPassword("test1111");
+        boardSaveDTO.setBoardWriter("testWriter");
+        System.out.println(boardSaveDTO.toString());
+       Long id = bs.save(boardSaveDTO);
+        System.out.println(br.findById(1L).toString());
+        //댓글작성
+        CommentSaveDTO commentSaveDTO = new CommentSaveDTO();
+        commentSaveDTO.setBoardId(id);
+        commentSaveDTO.setCommentContents("댓글1");
+        commentSaveDTO.setCommentWriter("작성자1");
+        cs.save(commentSaveDTO);
+
+        //작성된 댓글출력
+        System.out.println(commentSaveDTO.toString());
     }
 }

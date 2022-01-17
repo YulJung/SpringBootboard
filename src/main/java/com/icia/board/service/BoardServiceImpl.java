@@ -24,13 +24,14 @@ public class BoardServiceImpl implements BoardService{
     private final BoardRepository br;
 
     @Override
-    public void save(BoardSaveDTO boardSaveDTO) {
+    public Long save(BoardSaveDTO boardSaveDTO) {
         boardSaveDTO.setBoardDate(java.time.LocalDateTime.now());
         System.out.println(boardSaveDTO.toString()+"BS dto");
         BoardEntity boardEntity = BoardEntity.saveBoard(boardSaveDTO);
         System.out.println(boardEntity.toString()+"BS entity");
-        br.save(boardEntity);
 
+
+        return br.save(boardEntity).getBoardId();
     }
 
     @Override

@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface BoardService {
-    void save(BoardSaveDTO boardSaveDTO);
+    Long save(BoardSaveDTO boardSaveDTO);
 
     List<BoardDetailDTO> findAll();
 

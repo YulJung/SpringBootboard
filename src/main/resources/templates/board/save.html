@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
     <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+        const memberId = $("#memberId").val();
+        console.log(memberId);
+    </script>
 </head>
 <body>
     <form action="/board/save" method="post">
         <input type="text" name="boardWriter" id="boardWriter" placeholder="작성자"><br>
+        <input th:type="hidden" name="memberId" id="memberId" th:value="${session.memberId}";>
         <input type="text" name="boardTitle" id="boardTitle" placeholder="제목"><br>
         <input type="password" name="boardPassword" id="boardPassword" placeholder="비밀번호"><br>
         내용:<textarea name="boardContents" id="boardContents" cols="30" rows="30"></textarea><br>

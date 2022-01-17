@@ -7,6 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -24,9 +26,12 @@ public class BoardEntity extends BaseEntity {
     private String boardPassword;
     @Column
     private String boardContents;
-//    @Column
-//    private LocalDateTime boardDate;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private MemberEntity memberEntity;
+    //댓글 연관관계
+    @OneToMany(mappedBy = "boardEntity",cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+    private List<CommentEntity> commentEntityList = new ArrayList<>();
 
     public static BoardEntity saveBoard(BoardSaveDTO boardSaveDTO) {
         BoardEntity boardEntity = new BoardEntity();
